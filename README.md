@@ -1,4 +1,6 @@
-# Author
+# Raytracer
+
+## Author
 František Srb
 
 -----
@@ -6,97 +8,11 @@ František Srb
 [//]: <> (each checkpoint. You can remove irrelevant parts for the)
 [//]: <> (clarity of the document.)
 
-# Checkpoints
+## Images
 
-## Topics (tag `Top1`)
+![Refraction](refractionSample.png)
+![9dragons](9dragons.png)
 
-Results of this checkpoint:
-
-`.\bin\Release\net7.0\rt004.exe -c .\configs\9dragons.txt`
-![9Dragons](./9dragons.png)
-
-<br>
-
-`.\bin\Release\net7.0\rt004.exe -c .\configs\cornell_complex.txt`
-![Cornell Glass](./cornellbox.png)
-
-
-### More-solids (`t01`)
-
-I have created simple imports for .obj file. A mesh is loaded as an array of triangles.
-The code can be mainly found in [TriangleMesh.cs](./rt004/Solids/TriangleMesh.cs). It uses BVH which is discussed later in (`t08`).
-
-Important notice: Only vetices and triangle faces are supported as of now.
-
-### Parallelism (`t06`)
-
-The canvas is divided into `n` x `n` blocks (where `n=16` for now) and number of workers are created, that take work from common queue when they have no work assigned or their work is done. The number of workers are equal to logical processor count of the device.
-
-### Acceleration (`t08`)
-
-To help renderer with rendering complex models I implemented BVH with AABB found in [BVH.cs](./rt004/Utility/BVH.cs) and [AABB.cs](./rt004/Solids/AABB.cs).
-
-**AABB** is created quite simply by getting an array of triangles and founding its minmaxes.
-
-On the other hand the **BVH** is more sophisticated:
-* Volume is always divided at longest axis
-* It is bounded by max tree depth and minimum triangles per list
-* SAH is also involved
-  * a K candidates are chosen (max 32)
-  * for each candidate, calculate the sum of costs of new child lists using the heuristics
-  * (this is paralled using `Parallel.For` )
-* This is done once per mesh. So multiple instances of meshes doesn't require recalculation
-* Introduction of SAH into the BVH (instead of splitting at middle) introduced a heavy preprocess load. But this should be worth in complex scenes with many instances of these objects
-* Creating a BVH for 871k faces dragon model takes around 9s and rendering it takes 1.3s
-
-<details>
-<summary> The progress of accelaration </summary>
-
-* Spp: 2
-* Parallel workers: 20
-* Size: 600x450
-  * [Dragon 8k model](./rt004/models/dragon_8k.obj) (8713 faces) 
-
-| Stage | Scene preprocessing | 0 bounces | 5 bounces | Description|
-|------|---------------------|-------------|---------------|------------|
-| Before  | 50ms | 111 145ms | 153 743ms | Before any acc was implemented
-| single AABB | 62ms | 32 969ms | 68 807ms | Single AABB around whole model
-| BVH (mid-ax rb)| 80ms | 510ms | 894ms | BVH with splitting axis in middle in round-robin fashion|
-| BVH (mid longest-ax)| 85ms | 655ms | 1350ms | BVH with splitting the longest axis in middle|
-| BVH (SAH)| 183ms | 571ms | 858ms | BVH with SAH heuristics splitting the longest axis |
-
-  * [Dragon 871k model](./rt004/models/dragon_871k.obj) (871 414 faces) 
-
-| Stage | Scene preprocessing | 0 bounces | 5 bounces | Description|
-|-------|---------------------|-----------|-----------|------------|
-| BVH (mid-ax rb)| 4100ms | 860ms | 2138ms | BVH with splitting axis in middle in round-robin fashion|
-| BVH (mid longest-ax)| 3700ms | 730ms | 1737ms | BVH with splitting the longest axis in middle|
-| BVH (SAH)| 10100ms | 798ms | 1274ms | BVH with SAH heuristics splitting the longest axis |
-
-
-
-
-</details>
-
-### Extras:
-
-#### Normal/Depth rendering
-
-You can set option in camera (see [Input data](#input-data)) to render normals or depth onto the final image. This rendering doesnt take into account maxDepth, as rays in this mode doesn't reflect. 
-
-Examples:
-
-![Normal](./cornellbox_normal.png) ![Depth](./cornellbox_depth.png)
-
-
-### Work to be done
-
-* Phong BRDF is baked in the scene rendering. Think of better way to set it:
-    * Material can refernce what brdf it is using? (sounds like shaders)
-    * Maybe one brdf per scene/camera, which can be set from outside
-* ~~Hierarchy: override only those objects with colliding names~~
-* Do a BVH for whole scene
-    * Currently it is only calculated for imported .obj
 
 
 ## Command line arguments
@@ -771,4 +687,98 @@ The class which is encoded can have the following members:
 ```
 
 </details>
+</details>
+<br>
+<details>
+<summary> Checkpoint 5 </summary>
+## Topics (tag `Top1`)
+
+Results of this checkpoint:
+
+`.\bin\Release\net7.0\rt004.exe -c .\configs\9dragons.txt`
+![9Dragons](./9dragons.png)
+
+<br>
+
+`.\bin\Release\net7.0\rt004.exe -c .\configs\cornell_complex.txt`
+![Cornell Glass](./cornellbox.png)
+
+
+### More-solids (`t01`)
+
+I have created simple imports for .obj file. A mesh is loaded as an array of triangles.
+The code can be mainly found in [TriangleMesh.cs](./rt004/Solids/TriangleMesh.cs). It uses BVH which is discussed later in (`t08`).
+
+Important notice: Only vetices and triangle faces are supported as of now.
+
+### Parallelism (`t06`)
+
+The canvas is divided into `n` x `n` blocks (where `n=16` for now) and number of workers are created, that take work from common queue when they have no work assigned or their work is done. The number of workers are equal to logical processor count of the device.
+
+### Acceleration (`t08`)
+
+To help renderer with rendering complex models I implemented BVH with AABB found in [BVH.cs](./rt004/Utility/BVH.cs) and [AABB.cs](./rt004/Solids/AABB.cs).
+
+**AABB** is created quite simply by getting an array of triangles and founding its minmaxes.
+
+On the other hand the **BVH** is more sophisticated:
+* Volume is always divided at longest axis
+* It is bounded by max tree depth and minimum triangles per list
+* SAH is also involved
+  * a K candidates are chosen (max 32)
+  * for each candidate, calculate the sum of costs of new child lists using the heuristics
+  * (this is paralled using `Parallel.For` )
+* This is done once per mesh. So multiple instances of meshes doesn't require recalculation
+* Introduction of SAH into the BVH (instead of splitting at middle) introduced a heavy preprocess load. But this should be worth in complex scenes with many instances of these objects
+* Creating a BVH for 871k faces dragon model takes around 9s and rendering it takes 1.3s
+
+<details>
+<summary> The progress of accelaration </summary>
+
+* Spp: 2
+* Parallel workers: 20
+* Size: 600x450
+  * [Dragon 8k model](./rt004/models/dragon_8k.obj) (8713 faces) 
+
+| Stage | Scene preprocessing | 0 bounces | 5 bounces | Description|
+|------|---------------------|-------------|---------------|------------|
+| Before  | 50ms | 111 145ms | 153 743ms | Before any acc was implemented
+| single AABB | 62ms | 32 969ms | 68 807ms | Single AABB around whole model
+| BVH (mid-ax rb)| 80ms | 510ms | 894ms | BVH with splitting axis in middle in round-robin fashion|
+| BVH (mid longest-ax)| 85ms | 655ms | 1350ms | BVH with splitting the longest axis in middle|
+| BVH (SAH)| 183ms | 571ms | 858ms | BVH with SAH heuristics splitting the longest axis |
+
+  * [Dragon 871k model](./rt004/models/dragon_871k.obj) (871 414 faces) 
+
+| Stage | Scene preprocessing | 0 bounces | 5 bounces | Description|
+|-------|---------------------|-----------|-----------|------------|
+| BVH (mid-ax rb)| 4100ms | 860ms | 2138ms | BVH with splitting axis in middle in round-robin fashion|
+| BVH (mid longest-ax)| 3700ms | 730ms | 1737ms | BVH with splitting the longest axis in middle|
+| BVH (SAH)| 10100ms | 798ms | 1274ms | BVH with SAH heuristics splitting the longest axis |
+
+
+
+
+</details>
+
+### Extras:
+
+#### Normal/Depth rendering
+
+You can set option in camera (see [Input data](#input-data)) to render normals or depth onto the final image. This rendering doesnt take into account maxDepth, as rays in this mode doesn't reflect. 
+
+Examples:
+
+![Normal](./cornellbox_normal.png) ![Depth](./cornellbox_depth.png)
+
+
+### Work to be done
+
+* Phong BRDF is baked in the scene rendering. Think of better way to set it:
+    * Material can refernce what brdf it is using? (sounds like shaders)
+    * Maybe one brdf per scene/camera, which can be set from outside
+* ~~Hierarchy: override only those objects with colliding names~~
+* Do a BVH for whole scene
+    * Currently it is only calculated for imported .obj
+
 </details>
