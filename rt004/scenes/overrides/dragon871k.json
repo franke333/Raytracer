@@ -1,0 +1,9 @@
+﻿{
+  "Nodes": {
+    "mesh": {
+      "Solid": "Mesh",
+      "Path": "models/dragon_871k.obj"
+    }
+  }
+
+}

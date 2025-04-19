@@ -1,0 +1,17 @@
+﻿{
+  "Nodes": {
+    "mesh": {
+      "Children": [ "smallmesh" ],
+      "Transforms": [
+        {
+          "Scale": "2 2 2"
+        }
+      ]
+    },
+    "smallmesh": {
+      "Solid": "Mesh",
+      "Path": "models/teapot.obj"
+    }
+  }
+
+}

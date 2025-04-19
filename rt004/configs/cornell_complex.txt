@@ -1,0 +1,1 @@
+render "./cornell_871k.pfm" -s "./scenes/cornell_box.json" "./scenes/overrides/dragon871k.json"

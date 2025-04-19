@@ -1,0 +1,178 @@
+﻿{
+  "Camera": {
+    "Width": 900,
+    "Height": 900,
+    "Position": "2.78 2.73 -8.00",
+    "LookAt": "2.78 2.73 -7.00",
+    "Fov": 35,
+    "MaxDepth": 30,
+    "Spp": 8,
+    "Mode": "Color"
+  },
+
+  "BackgroundColor": "0.1 0.2 0.3",
+
+  "Nodes": {
+    "plane": {
+      "Solid": "Plane"
+    },
+    "mesh": {
+      "Solid": "Mesh",
+      "Path": "models/dragon_8k.obj"
+    },
+    "teapot": {
+      "Solid": "Mesh",
+      "Path": "models/teapot.obj",
+      "Material": "glass"
+    },
+    "lightBox":{
+      "Solid": "Mesh",
+      "Path": "models/box.obj",
+      "Material": "light"
+    },
+    "coloredMesh": {
+      "Material": "glass",
+      "Children": [ "mesh" ],
+      "Transforms": [
+        {
+          "Translation": "0 -4.8 -1"
+        }
+      ]
+    },
+
+    "whiteWall": {
+      "Material": "white",
+      "Children": [ "plane" ],
+      "Transforms": [
+        {
+        }
+      ]
+    },
+    "redWall": {
+      "Material": "red",
+      "Children": [ "plane" ],
+      "Transforms": [
+        {
+        }
+      ]
+    },
+    "greenWall": {
+      "Material": "green",
+      "Children": [ "plane" ],
+      "Transforms": [
+        {
+        }
+      ]
+    },
+    "root": {
+      "Material": "white",
+      "Children": ["coloredMesh", "redWall", "greenWall", "whiteWall", "whiteWall", "whiteWall", "lightBox", "teapot"],
+      "Transforms": [
+        {
+          "Scale": "0.3 0.3 -0.3",
+          "Translation": "1.66 1.5 3.5",
+          "Rotation": "0 -40 0"
+        },
+        {
+          "Translation": "0 0 0",
+          "Rotation": "0 0 -90"
+        },
+        {
+          "Translation": "5.56 0 0",
+          "Rotation": "0 0 90"
+        },
+        {
+          "Translation": "0 0 0"
+        },
+        {
+          "Translation": "0 0 5.592",
+          "Rotation": "-90 0 0"
+        },
+        {
+          "Translation": "0 5.488 0",
+          "Rotation": "-180 0 0"
+        },
+        {
+          "Translation": "2.78 5.488 2.77",
+          "Scale": ".2 0.001 .2"
+        },        {
+          "Scale": "0.5 0.5 -0.5",
+          "Translation": "4 0 3",
+          "Rotation": "0 -40 0"
+        }
+      ]
+    }
+  },
+  "Materials": {
+    "white": {
+      "Color": "0.9 0.9 0.9",
+      "A": 0.1,
+      "D": 0.95,
+      "S": 0.05,
+      "H": 80,
+      "Alpha": 1
+    },
+    "red": {
+      "Color": "1 0.3 0.3",
+      "A": 0.1,
+      "D": 0.9,
+      "S": 0.1,
+      "H": 80,
+      "Alpha": 1
+    },
+    "green": {
+      "Color": "0.3 1 0.3",
+      "A": 0.1,
+      "D": 0.9,
+      "S": 0.1,
+      "H": 80,
+      "Alpha": 1
+    },
+    "blue": {
+      "Color": "0.3 0.3 1",
+      "A": 0.1,
+      "D": 0.9,
+      "S": 0.1,
+      "H": 80,
+      "Alpha": 1
+    },
+    "glass": {
+      "Color": "0.9 0.9 0.9",
+      "A": 0.001,
+      "D": 0.001,
+      "S": 0.999,
+      "H": 80,
+      "Alpha": 0.1,
+      "N" :  1.08
+    },
+    "light":{
+      "Color": "1 1 1",
+      "A": 10,
+      "D": 0,
+      "S": 0,
+      "H": 80,
+      "Alpha": 1
+    },
+    "yellow": {
+      "Color": "1 1 0.2",
+      "A": 0.1,
+      "D": 0.85,
+      "S": 0.15,
+      "H": 80,
+      "Alpha": 1
+    }
+  },
+  "Lights": [
+    {
+      "Type": "Ambient",
+      "Color": "1 1 1",
+      "Intensity": 1
+    },
+    {
+      "Type": "Point",
+      "Position": "2.78 5.3 2.77",
+      "Color": "1.0 1.0 1.0",
+      "Intensity": 1.0
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+render 9dragons.pfm -s .\scenes\9rotations.json .\scenes\overrides\dragon8k.json

@@ -1,0 +1,1 @@
+render "./out_test.pfm" -s "./scenes/scene_test.json"

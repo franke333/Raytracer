@@ -1,0 +1,15 @@
+﻿{
+  "Lights": [
+    {
+      "Type": "Ambient",
+      "Color": "1 1 1",
+      "Intensity": 0.1
+    },
+    {
+      "Type": "Point",
+      "Position": "-4 2 4",
+      "Color": "0.9 0.1 0.1",
+      "Intensity": 1.0
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "Camera": {
+    "Width": 800,
+    "Height": 600,
+    "Position": "0 3 -30",
+    "LookAt": "0 0 0",
+    "Fov": 45,
+    "MaxDepth": 8
+  },
+
+  "BackgroundColor": "0.1 0.2 0.4",
+
+  "Nodes": {
+    "wall": {
+      "Solid": "Plane"
+    },
+    "sphere": {
+      "Solid": "Sphere"
+    },
+    "redSphere": {
+      "Material": "red",
+      "Children": [ "sphere" ],
+      "Transforms": [
+        {
+        }
+      ]
+    },
+    "root": {
+      "Material": "white",
+      "Children": [ "wall", "redSphere" ],
+      "Transforms": [
+        {
+          "Translation": "0 0 5",
+          "Rotation": "-90 0 0"
+        },
+        {
+          "Translation": "0 0 1",
+          "Scale": "2 2 2"
+        }
+      ]
+    }
+  },
+  "Materials": {
+    "white": {
+      "Color": "0.8 0.8 0.8",
+      "A": 0.2,
+      "D": 0.6,
+      "S": 0.4,
+      "H": 400
+    },
+    "red": {
+      "Color": "1 0 0",
+      "A": 0.2,
+      "D": 0.2,
+      "S": 0.8,
+      "H": 100
+    }
+  },
+  "Lights": [
+    {
+      "Type": "Ambient",
+      "Color": "1 1 1",
+      "Intensity": 1
+    },
+    {
+      "Type": "Point",
+      "Position": "0 2 -1",
+      "Color": "1.0 1.0 1.0",
+      "Intensity": 1.0
+    }
+  ]
+}

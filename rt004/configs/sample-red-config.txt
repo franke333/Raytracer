@@ -1,0 +1,1 @@
+render "./out_sampleShadow.pfm" -s "./scenes/sample.json" ".\scenes\overrides\sample_shadowPlay.json"

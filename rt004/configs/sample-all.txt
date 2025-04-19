@@ -1,0 +1,4 @@
+-c "./configs/sample-config.txt"
+-c "./configs/sample-side-config.txt"
+-c "./configs/sample-side-red-config.txt"
+-c "./configs/sample-red-config.txt"

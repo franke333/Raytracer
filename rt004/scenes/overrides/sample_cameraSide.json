@@ -1,0 +1,11 @@
+﻿{
+  "Camera": {
+    "Width": 600,
+    "Height": 450,
+    "Position": "8 0 -2",
+    "LookAt": "0 0 0",
+    "Fov": 45,
+    "MaxDepth": 8,
+    "Spp":  2
+  }
+}
